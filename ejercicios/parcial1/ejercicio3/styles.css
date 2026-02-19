@@ -1,0 +1,34 @@
+/* Selector global */
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+/* Selector por tipo */
+p {
+    font-size: 18px;
+    color: #333333; /* gris oscuro */
+}
+
+/* Selector por clase */
+.especial {
+    background-color: lightblue;
+    font-weight: bold;
+}
+
+/* Selector por ID */
+#importante {
+    background-color: red;
+    color: white;
+}
+
+/* Selector por atributo */
+input[placeholder] {
+    border: 2px solid blue;
+    padding: 5px;
+}
+
+/* Selector por atributo y valor */
+input[type="password"] {
+    background-color: #e6e6e6; /* gris claro */
+}
