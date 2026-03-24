@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+section {
+    border: 1px solid gray;
+    padding: 15px;
+    background-color: beige;
+}
+
+@media (min-width: 600px) {
+    .container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .container section:nth-child(1) {
+        grid-row: span 2;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .container section:nth-child(1) {
+        grid-row: auto;
+    }
+}

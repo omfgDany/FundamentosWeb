@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Query Example</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            background-color: aqua;
+        }
+
+        .elemento1 {
+            background-color: blue;
+        }
+
+        
+        .elemento2 {
+            background-color: green;
+        }
+
+
+        .elemento3 {
+            background-color: red;
+        }
+    </style>
+</head>
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .elemento1,
+    .elemento2,
+    .elemento3 {
+        flex: 1;
+        min-width: 200px;
+        padding: 20px;
+        color: white;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .elemento1,
+        .elemento2,
+        .elemento3 {
+            flex: 1 1 calc(50% - 5px);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .elemento1,
+        .elemento2,
+        .elemento3 {
+            flex: 1 1 100%;
+        }
+    }
+</style>
+<body>
+
+        <div class="container">
+            <div class="elemento1">Elemento 1</div>
+            <div class="elemento2">Elemento 2</div>
+            <div class="elemento3">Elemento 3</div>
+        </div>
+    
+    </body>
+    
+    </html>

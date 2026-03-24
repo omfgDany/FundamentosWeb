@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>RGB Cards</title>
+<style>
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items:start;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div>
+    <input type="text" id="texto" placeholder="Texto libre">
+    <button onclick="agregar()">Agregar</button>
+</div>
+
+<label for="color">Color</label>
+<input type="color" id="color" value="#000000">
+
+<div class="container" id="contenedor"></div>
+
+<script>
+function agregar() {
+    let color = document.getElementById("color").value;
+    let texto = document.getElementById("texto").value;
+
+    let div = document.createElement("div");
+    div.className = "card";
+    div.style.backgroundColor = color;
+    div.textContent = texto;
+
+    document.getElementById("contenedor").appendChild(div);
+}
+</script>
+
+</body>
+</html>

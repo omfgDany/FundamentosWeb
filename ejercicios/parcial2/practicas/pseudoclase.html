@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- 
+        La etiqueta <head> contiene metadatos del documento.
+        Metadatos = datos sobre el documento, no visibles directamente en la página.
+    -->
+
+    <meta charset="UTF-8">
+    <!-- 
+        Define la codificación de caracteres.
+        UTF-8 permite usar tildes, ñ y símbolos sin problemas.
+    -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 
+        Hace que el diseño sea adaptable en dispositivos móviles.
+        width=device-width: usa el ancho real del dispositivo.
+        initial-scale=1.0: nivel de zoom inicial.
+    -->
+
+    <title>Guía Educativa: Pseudoclases en CSS</title>
+
+    <style>
+        /*
+            Aquí comienza el bloque CSS.
+            CSS significa Cascading Style Sheets.
+            Se encarga de definir la presentación visual del HTML.
+        */
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 40px;
+        }
+
+        /*
+            Selector básico:
+            "body" es un selector de tipo.
+            Aplica estilos a la etiqueta <body>.
+        */
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        /*
+            A continuación veremos PSEUDOCLASES.
+            Sintaxis general:
+
+            selector:pseudoclase {
+                propiedad: valor;
+            }
+
+            Una pseudoclase define un estado especial de un elemento.
+            No modifica la estructura del DOM.
+            Solo cambia el comportamiento o apariencia según una condición.
+        */
+
+        a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
+
+        /*
+            PSEUDOCLASE :hover
+            Se activa cuando el cursor pasa sobre el elemento.
+        */
+        a:hover {
+            color: red;
+        }
+
+        /*
+            PSEUDOCLASE :active
+            Se activa cuando el elemento está siendo presionado.
+        */
+        a:active {
+            color: green;
+        }
+
+        /*
+            PSEUDOCLASE :visited
+            Se aplica a enlaces ya visitados.
+        */
+        a:visited {
+            color: purple;
+        }
+
+        /*
+            PSEUDOCLASE :focus
+            Se activa cuando un elemento recibe foco (por ejemplo un input).
+        */
+        input:focus {
+            border: 2px solid orange;
+            outline: none;
+        }
+
+        /*
+            PSEUDOCLASE :first-child
+            Selecciona el primer hijo de su contenedor.
+        */
+        li:first-child {
+            color: darkblue;
+            font-weight: bold;
+        }
+
+        /*
+            PSEUDOCLASE :last-child
+            Selecciona el último hijo.
+        */
+        li:last-child {
+            color: darkred;
+        }
+
+        /*
+            PSEUDOCLASE :nth-child(n)
+            Permite seleccionar elementos según su posición.
+            n puede ser:
+                número fijo: 2
+                fórmula: 2n
+                palabras clave: odd (impar), even (par)
+        */
+        li:nth-child(2n) {
+            background-color: #dfe6e9;
+        }
+
+        /*
+            PSEUDOCLASE :not(selector)
+            Selecciona elementos que NO coincidan con el selector indicado.
+        */
+        button:not(.especial) {
+            background-color: gray;
+            color: white;
+        }
+
+        button.especial {
+            background-color: teal;
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- 
+        Todo lo visible en la página va dentro de <body>.
+    -->
+
+    <h1>Pseudoclases en CSS</h1>
+
+    <p>
+        Las pseudoclases permiten aplicar estilos dependiendo del estado del elemento.
+        No modifican la estructura HTML.
+        Solo afectan el comportamiento visual.
+    </p>
+
+    <h2>Ejemplo 1: Enlaces</h2>
+
+    <a href="https://example.com">Este es un enlace interactivo</a>
+
+    <!-- 
+        Estados posibles del enlace:
+        normal
+        hover (cursor encima)
+        active (clic presionado)
+        visited (ya visitado)
+    -->
+
+    <h2>Ejemplo 2: Input con foco</h2>
+
+    <input type="text" placeholder="Haz clic aquí para activar :focus">
+
+    <!-- 
+        Cuando el usuario hace clic dentro del input,
+        se activa la pseudoclase :focus.
+    -->
+
+    <h2>Ejemplo 3: Lista y selección estructural</h2>
+
+    <ul>
+        <li>Elemento 1</li>
+        <li>Elemento 2</li>
+        <li>Elemento 3</li>
+        <li>Elemento 4</li>
+    </ul>
+
+    <!-- 
+        Aquí vemos:
+        :first-child
+        :last-child
+        :nth-child(2n)
+    -->
+
+    <h2>Ejemplo 4: Uso de :not()</h2>
+
+    <button>Botón normal</button>
+    <button class="especial">Botón especial</button>
+
+    <!-- 
+        :not(.especial) aplica estilo a todos los botones
+        que NO tengan la clase "especial".
+    -->
+
+    <h2>Conceptos Técnicos Clave</h2>
+
+    <p>
+        1. Las pseudoclases usan dos puntos.
+        2. Se evalúan dinámicamente según el estado.
+        3. No agregan nodos al DOM.
+        4. Se combinan con cualquier selector.
+    </p>
+
+    <h2>Variantes importantes</h2>
+
+    <p>
+        Existen muchas más pseudoclases:
+        :checked
+        :disabled
+        :required
+        :valid
+        :invalid
+        :empty
+        :root
+    </p>
+
+    <h2>Diferencia entre pseudoclase y pseudoelemento</h2>
+
+    <p>
+        Pseudoclase usa un solo dos puntos: :hover
+        Pseudoelemento usa doble dos puntos: ::before
+    </p>
+
+    <p>
+        Las pseudoclases representan estados.
+        Los pseudoelementos representan partes virtuales del elemento.
+    </p>
+
+</body>
+</html>
