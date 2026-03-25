@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "titulo": "Ensalada Caprese",
+    "descripcion": "Clásica ensalada de tomate, mozzarella y albahaca fresca.",
+    "categoria": "Italiana",
+    "dificultad": "Fácil",
+    "imagen": "comida2.jpg",
+    "autor": "Chef Luca",
+    "avatar": "chef-profile.png",
+    "likes": 98,
+    "comentarios": 5,
+    "dia": 20,
+    "mes": 3,
+    "anio": 2026
+  },
+  {
+    "id": 2,
+    "titulo": "Pastel de Chocolate",
+    "descripcion": "Bizcocho esponjoso con cobertura de chocolate cremoso.",
+    "categoria": "Postre",
+    "dificultad": "Media",
+    "imagen": "comida3.jpg",
+    "autor": "Chef Sofía",
+    "avatar": "chef-profile.png",
+    "likes": 210,
+    "comentarios": 15,
+    "dia": 22,
+    "mes": 3,
+    "anio": 2026
+  },
+  {
+    "id": 3,
+    "titulo": "Tacos de Pollo",
+    "descripcion": "Tortillas rellenas de pollo jugoso y salsa especial.",
+    "categoria": "Mexicana",
+    "dificultad": "Fácil",
+    "imagen": "comida1.jpg",
+    "autor": "Chef Ana",
+    "avatar": "chef-profile.png",
+    "likes": 120,
+    "comentarios": 8,
+    "dia": 21,
+    "mes": 3,
+    "anio": 2026
+  }
+]

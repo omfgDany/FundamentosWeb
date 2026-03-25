@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comunidad - RecetaCreativa</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+<!-- Header reutilizable -->
+<div id="header"></div>
+<script src="header.js"></script>
+
+<!-- ===== COMMUNITY PAGE ===== -->
+<div class="container">
+  <div class="community-header">
+    <h1 class="section-title" style="font-size:2rem; margin-bottom:8px">Comunidad</h1>
+    <p class="text-muted" style="margin-bottom:28px">Explora recetas compartidas por nuestra comunidad de cocineros creativos</p>
+    <!-- Sort -->
+    <div class="filter-row">
+      <button class="btn btn-outline" id="sort-alfabetico">🔤 Alfabético</button>
+      <button class="btn btn-outline" id="sort-popular">📈 Más populares</button>
+      <button class="btn btn-outline" id="sort-fecha">🕐 Más recientes</button>
+    </div>
+    <!-- Categories -->
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px">
+      <span>🔎</span><strong>Categorías:</strong>
+    </div>
+    <div class="category-row" id="category-row">
+      <button class="btn btn-sm btn-outline active" data-category="all">Todas</button>
+      <button class="btn btn-sm btn-outline" data-category="italiana">Italiana</button>
+      <button class="btn btn-sm btn-outline" data-category="mexicana">Mexicana</button>
+      <button class="btn btn-sm btn-outline" data-category="asiatica">Asiática</button>
+      <button class="btn btn-sm btn-outline" data-category="postres">Postres</button>
+    </div>
+    <p class="result-count" id="result-count" style="margin-top:16px">Mostrando 12 recetas</p>
+  </div>
+  <div class="grid-3" id="community-grid">
+    <!-- Las cards se llenan dinámicamente -->
+  </div>
+  <div id="community-empty" style="display:none; text-align:center; padding:64px 0">
+    <p style="color:var(--muted); font-size:1.05rem; margin-bottom:16px">No se encontraron recetas con estos filtros</p>
+    <button class="btn btn-outline">Limpiar filtros</button>
+  </div>
+</div>
+
+<script src="recetas.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecetaCreativa</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+
+<body>
+<!-- Header reutilizable -->
+<div id="header"></div>
+<script src="header.js"></script>
+
+<!-- Buscador y acciones principales -->
+<section class="bienvenida-section">
+  <div class="bienvenida-content">
+    <h2 class="bienvenida-title">Cocina creativo, Cocina en comunidad, Cocina saludable</h2>
+    <p class="bienvenida-sub">Cocinar no tiene que ser dificil ni agobiante, siempre habrá una persona o una IA que te acompañe</p>
+    <div class="bienvenida-search-row">
+      <input id="main-search" type="text" placeholder="Buscar recetas...">
+      <button class="bienvenida-search-btn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+    <div class="bienvenida-actions">
+      <a href="publish.html" class="bienvenida-pub-btn"><i class="fa-solid fa-plus"></i> Publicar receta</a>
+      <a href="ai.html" class="bienvenida-ia-btn"><i class="fa-solid fa-robot"></i> Hablar con IA</a>
+    </div>
+  </div>
+</section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Recetas Destacadas</h2>
+        <a class="section-link" href="community.html">Ver todas →</a>
+      </div>
+      <div class="grid-3" id="featured-grid">
+        <!-- Las cards se llenan dinámicamente -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Trending -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Tendencias de la Comunidad</h2>
+        <a class="section-link" href="community.html">Explorar más →</a>
+      </div>
+      <div class="grid-3" id="trending-grid">
+        <!-- Las cards populares se llenan dinámicamente -->
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Banner -->
+  <section class="ai-section">
+    <div class="ai-icon">🤖</div>
+    <h2>Tu Asistente de Cocina con IA</h2>
+    <p>Obtén sugerencias personalizadas, analiza recetas y genera nuevas ideas culinarias</p>
+    <a href="ai.html" class="btn btn-secondary btn-lg">Probar ahora</a>
+  </section>
+
+<script src="recetas.js"></script>
+</body>
+</html>
