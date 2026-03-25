@@ -1,92 +1,44 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
     font-family: Arial, sans-serif;
-    background-color: #fef6f0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
+    padding: 20px;
 }
 
-.card {
-    width: 300px;
-    background: white;
-    padding: 30px;
-    padding-top: 80px;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-    position: relative; 
+.input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
-.avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-
-    position: absolute;
-    top: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.name {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.role {
-    color: #f28c28;
+#searchInfo {
+    font-size: 13px;
+    color: #555;
     margin-bottom: 15px;
 }
-.description {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 20px;
+
+.element-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    max-width: 800px;
 }
 
-.icons {
-    margin-bottom: 20px;
-}
-.icons i {
-    font-size: 18px;
-    margin: 0 10px;
-}
-
-.fa-twitter {
-    color: #1DA1F2;   /* azul claro */
+.element {
+    width: 200px;
+    padding: 10px;
+    background-color: #ccc;
+    border-radius: 5px;
 }
 
-.fa-linkedin {
-    color: #0A66C2;   /* azul medio */
+.element.hidden {
+    display: none;
 }
 
-.fa-envelope {
-    color: #003366;   /* azul oscuro */
-}
-
-button {
-    padding: 10px 25px;
-    background-color: #f88d37;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #e07b1f;
+mark {
+    background-color: #FFD700;
+    border-radius: 2px;
+    padding: 0 2px;
 }

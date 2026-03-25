@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Profile Card (Examen)</title>
-    
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <link rel="stylesheet" href="style.css">
-
+<meta charset="UTF-8">
+<title>Lista de Tareas</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <div class="card">
+<div class="input-container">
+    <input type="text" id="searchInput" placeholder="Buscar elemento..." oninput="filterelements()">
+</div>
 
-        <div class="avatar">
-            <img src="avatar.jpg" alt="Foto de perfil">
-        </div>
+<div id="searchInfo"></div>
 
-        <div class="name">Sofia Martinez</div>
-        <div class="role">Web Developer</div>
+<div class="element-container" id="elementContainer"></div>
 
-        <div class="description">
-            Passionate web developer specializing
-            in modern JavaScript frameworks.
-        </div>
+<script>
+const items = [
+    "Manzana", "Tomate", "Zanahoria", "Papa", "Pera",
+    "Papaya", "Banana", "Kiwi", "Fresa", "Arandano"
+];
 
-        <div class="icons">
-            <i class="fa-brands fa-twitter"></i>
-            <i class="fa-brands fa-linkedin"></i>
-            <i class="fa-solid fa-envelope"></i>
-        </div>
+function buildList() {
+    const container = document.getElementById("elementContainer");
+    items.forEach(function(item) {
+        const div = document.createElement("div");
+        div.className = "element";
+        div.dataset.text = item;
+        div.textContent = item;
+        container.appendChild(div);
+    });
+}
 
-        <div class="button">
-            <button>Contact Me</button>
+function filterelements() {
+    const query = document.getElementById("searchInput").value.trim().toLowerCase();
+    const elements = document.querySelectorAll(".element");
+    let visible = 0;
 
-    </div>
+    elements.forEach(function(element) {
+        const match = element.dataset.text.toLowerCase().includes(query);
+        element.classList.toggle("hidden", !match);
+        if (match) {
+            element.textContent = element.dataset.text;
+            visible++;
+        }
+    });
 
+    const info = document.getElementById("searchInfo");
+    info.textContent = query
+        ? visible + " resultado" + (visible !== 1 ? "s" : "") + " para \"" + query + "\""
+        : "";
+}
+
+buildList();
+</script>
 
 </body>
 </html>
