@@ -5,6 +5,11 @@ body {
     align-items: center;
     padding: 20px;
 }
+h1 {
+    font-size: 32px;
+    color: black;
+    margin-bottom: 20px;
+}
 
 .input-container {
     display: flex;
