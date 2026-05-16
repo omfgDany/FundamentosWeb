@@ -119,6 +119,20 @@
     max-width: 100vw;
   }
 }
+
+/* Animación de tres puntos para el botón de chat */
+.dot-anim {
+  letter-spacing: 2px;
+  font-size: 1.5em;
+  animation: dotColor 1s infinite alternate;
+}
+@keyframes dotColor {
+  0% { color: #f97316; }
+  33% { color: #8b5cf6; }
+  66% { color: #b26a1a; }
+  100% { color: #f97316; }
+}
+}
 /* ===== RESET & BASE ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
