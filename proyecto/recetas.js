@@ -36,12 +36,11 @@ function crearCard(receta) {
 }
 
 function cargarRecetas() {
-  fetch('recetas.json')
+  fetch('recetas_api.php')
     .then(res => res.json())
     .then(recetas => {
       // Destacadas (index): por fecha descendente
       const destacadas = [...recetas].sort((a, b) => {
-        // Ordenar por año, luego mes, luego día
         if (b.anio !== a.anio) return b.anio - a.anio;
         if (b.mes !== a.mes) return b.mes - a.mes;
         return b.dia - a.dia;
