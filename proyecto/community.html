@@ -11,50 +11,46 @@
 <body>
 <div id="header"></div>
 <script src="header.js"></script>
-
-
-
-
 <script src="session.js"></script>
 <script>
-  // Ejecutar la comprobación inmediatamente al cargar la página
   document.addEventListener("DOMContentLoaded", () => {
-    if (typeof checkSession === 'function') {
+    if (typeof checkSession === "function") {
       checkSession();
     }
   });
 </script>
 
-<!-- ===== COMMUNITY PAGE ===== -->
 <div class="container">
   <div class="community-header">
     <h1 class="section-title" style="font-size:2rem; margin-bottom:8px">Comunidad</h1>
     <p class="text-muted" style="margin-bottom:28px">Explora recetas compartidas por nuestra comunidad de cocineros creativos</p>
-    <!-- Sort -->
-    <div class="filter-row">
-      <button class="btn btn-outline" id="sort-alfabetico">🔤 Alfabético</button>
-      <button class="btn btn-outline" id="sort-popular">📈 Más populares</button>
-      <button class="btn btn-outline" id="sort-fecha">🕐 Más recientes</button>
+
+    <div class="filter-row" aria-label="Ordenar recetas">
+      <button class="btn btn-outline active" id="sort-alfabetico" data-sort="alfabetico">
+        <i class="fa-solid fa-arrow-down-a-z"></i> Alfabético
+      </button>
+      <button class="btn btn-outline" id="sort-fecha" data-sort="fecha">
+        <i class="fa-regular fa-clock"></i> Más recientes
+      </button>
+      <button class="btn btn-outline" id="sort-popular" data-sort="popular">
+        <i class="fa-solid fa-heart"></i> Más likes
+      </button>
     </div>
-    <!-- Categories -->
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px">
-      <span>🔎</span><strong>Categorías:</strong>
+
+    <div class="category-label">
+      <i class="fa-solid fa-filter"></i>
+      <strong>Categorías</strong>
     </div>
-    <div class="category-row" id="category-row">
-      <button class="btn btn-sm btn-outline active" data-category="all">Todas</button>
-      <button class="btn btn-sm btn-outline" data-category="italiana">Italiana</button>
-      <button class="btn btn-sm btn-outline" data-category="mexicana">Mexicana</button>
-      <button class="btn btn-sm btn-outline" data-category="asiatica">Asiática</button>
-      <button class="btn btn-sm btn-outline" data-category="postres">Postres</button>
-    </div>
-    <p class="result-count" id="result-count" style="margin-top:16px">Mostrando 12 recetas</p>
+    <div class="category-row" id="category-row" aria-label="Filtrar por categoría"></div>
+
+    <p class="result-count" id="result-count">Mostrando 0 recetas</p>
   </div>
-  <div class="grid-3" id="community-grid">
-    <!-- Las cards se llenan dinámicamente -->
-  </div>
-  <div id="community-empty" style="display:none; text-align:center; padding:64px 0">
-    <p style="color:var(--muted); font-size:1.05rem; margin-bottom:16px">No se encontraron recetas con estos filtros</p>
-    <button class="btn btn-outline">Limpiar filtros</button>
+
+  <div class="grid-3" id="community-grid"></div>
+
+  <div id="community-empty" class="community-empty">
+    <p>No se encontraron recetas con estos filtros.</p>
+    <button class="btn btn-outline" id="clear-filters">Limpiar filtros</button>
   </div>
 </div>
 

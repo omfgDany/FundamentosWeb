@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comunidad - RecetaCreativa</title>
+  <title>Chat con IA - RecetaCreativa</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -11,27 +11,34 @@
 <body>
 <div id="header"></div>
 <script src="header.js"></script>
-
 <script src="session.js"></script>
 <script>
-  // Ejecutar la comprobación inmediatamente al cargar la página
   document.addEventListener("DOMContentLoaded", () => {
-    if (typeof checkSession === 'function') {
+    if (typeof checkSession === "function") {
       checkSession();
     }
   });
 </script>
 
-<!-- ===== AI CHAT PAGE ===== -->
- <div class ="container" style ="padding:64px 0; text-align:center">
-    <h1 class="section-title" style="font-size:2rem; margin-bottom:8px">Chat con IA</h1>
-    <p class="text-muted" style="margin-bottom:28px">¿Tienes dudas sobre una receta? ¿Quieres sugerencias de ingredientes? ¡Pregunta a nuestra IA!</p>
-    <div class="bienvenida-search-row" style="justify-content:center; margin-bottom:32px">
-      <input id="ai-input" type="text" placeholder="Escribe tu pregunta..." style="width:60%; max-width:400px; padding:12px 16px; border:1px solid var(--muted); border-radius:4px">
-      <button class="bienvenida-search-btn" id="ai-submit" style="margin-left:8px; padding:12px 16px">
+<main class="ai-page">
+  <h1 class="section-title" style="font-size:2rem; margin-bottom:8px">Chat con IA</h1>
+  <p class="text-muted" style="margin-bottom:24px">Pregunta por ideas de recetas, ingredientes o formas sencillas de cocinar algo nuevo.</p>
+
+  <section class="chat-box" aria-label="Chat con asistente de cocina">
+    <div class="chat-header">
+      <i class="fa-solid fa-robot"></i>
+      Asistente de cocina
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <form class="chat-input-row" id="chat-form">
+      <input id="chat-input" type="text" placeholder="Escribe tu pregunta..." autocomplete="off">
+      <button class="btn btn-secondary" id="chat-send" type="submit">
         <i class="fa-solid fa-paper-plane"></i>
       </button>
-    </div>
-    <div id="ai-response" style="max-width:600px; margin:0 auto; text-align:left; background:var(--light); padding:16px; border-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.1)"></div>
-  </div>
-    <script src="ai.js"></script>
+    </form>
+  </section>
+</main>
+
+<script src="ai.js"></script>
+</body>
+</html>
