@@ -1,9 +1,7 @@
-// session.js
-
 async function checkSession() {
   const sessionArea = document.getElementById('nav-session-actions');
   const publishArea = document.getElementById('nav-publish-container');
-  if (!sessionArea) return; // Salva el código si el contenedor aún no se monta
+  if (!sessionArea) return;
 
   try {
     const res = await fetch('auth/session_check.php');
@@ -21,17 +19,16 @@ async function checkSession() {
       }
       renderUserMenu(sessionArea, data.user);
     } else {
-      if (publishArea) publishArea.innerHTML = ''; // Oculta el botón de publicar si no está logueado
+      if (publishArea) publishArea.innerHTML = '';
       renderGuestMenu(sessionArea);
     }
   } catch (e) {
-    if (publishArea) publishArea.innerHTML = ''; // Oculta el botón de publicar en caso de error
+    if (publishArea) publishArea.innerHTML = '';
     console.warn("Cargando modo invitado por fallo de red o sesión inactiva.");
     renderGuestMenu(sessionArea);
   }
 }
 
-// Interfaz para Invitados (Icono gris predeterminado)
 function renderGuestMenu(container) {
   container.innerHTML = `
     <button onclick="toggleUserMenu(event)" style="background: none; border: none; cursor: pointer; display: flex; align-items: center;">
@@ -50,20 +47,19 @@ function renderGuestMenu(container) {
   `;
 }
 
-// Interfaz para Usuarios Logueados o Administradores
 function renderUserMenu(container, user) {
   const esAdmin = user.rol === 'admin';
   const tagRol = esAdmin ? '<span style="background: #ef4444; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-bottom: 4px; display: inline-block;">Admin</span>' : '';
 
   container.innerHTML = `
     <button onclick="toggleUserMenu(event)" style="background: none; border: none; cursor: pointer; display: flex; align-items: center;">
-      <img src="proyecto/media/pfp 1.png" alt="Perfil" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid #f97316;">
+      <img src="media/pfp/1.png" alt="Perfil" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid #f97316;">
     </button>
 
     <div id="user-dropdown" style="display: none; position: absolute; right: 0; top: 45px; background: white; min-width: 220px; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); z-index: 1000; overflow: hidden;">
       
       <div style="padding: 16px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px;">
-        <img src="proyecto/media/pfp 1.png" alt="Perfil" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #f97316;">
+        <img src="media/pfp/1.png" alt="Perfil" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #f97316;">
         <div>
           <div style="font-size: 0.75rem; color: #6b7280; font-weight: 500;">Bienvenido</div>
           ${tagRol}
@@ -91,7 +87,6 @@ function toggleUserMenu(event) {
   }
 }
 
-// Cierre automático al pulsar fuera
 document.addEventListener('click', () => {
   const dropdown = document.getElementById('user-dropdown');
   if (dropdown) dropdown.style.display = 'none';

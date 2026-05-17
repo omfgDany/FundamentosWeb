@@ -6,6 +6,60 @@ if (!isset($_SESSION['ai_chat'])) {
     $_SESSION['ai_chat'] = [];
 }
 
+function responder_con_groq($mensaje) {
+    $apiKey = getenv('GROQ_API_KEY');
+
+    if (!$apiKey) {
+        return null;
+    }
+
+    $data = [
+        'model' => 'llama-3.1-8b-instant',
+        'messages' => [
+            [
+                'role' => 'system',
+                'content' => 'Eres un asistente de cocina para RecetaCreativa. Responde en español, breve, claro y con ideas prácticas.'
+            ],
+            [
+                'role' => 'user',
+                'content' => $mensaje
+            ]
+        ],
+        'temperature' => 0.7,
+        'max_tokens' => 180
+    ];
+
+    $ch = curl_init('https://api.groq.com/openai/v1/chat/completions');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $apiKey
+        ],
+        CURLOPT_POSTFIELDS => json_encode($data),
+        CURLOPT_TIMEOUT => 20
+    ]);
+
+    $response = curl_exec($ch);
+
+    if ($response === false) {
+        curl_close($ch);
+        return 'No pude conectarme con la IA en este momento. Revisa que cURL esté activo en XAMPP.';
+    }
+
+    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $json = json_decode($response, true);
+
+    if ($statusCode >= 400) {
+        return $json['error']['message'] ?? 'La API de IA respondió con un error.';
+    }
+
+    return $json['choices'][0]['message']['content'] ?? 'La IA no devolvió una respuesta válida.';
+}
+
 function responder_ia_basica($mensaje) {
     $texto = function_exists('mb_strtolower')
         ? mb_strtolower($mensaje, 'UTF-8')
@@ -59,7 +113,7 @@ $_SESSION['ai_chat'][] = [
 
 $_SESSION['ai_chat'][] = [
     'autor' => 'bot',
-    'texto' => responder_ia_basica($mensaje)
+    'texto' => responder_con_groq($mensaje) ?? responder_ia_basica($mensaje)
 ];
 
 echo json_encode([
