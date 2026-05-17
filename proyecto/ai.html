@@ -9,9 +9,18 @@
 </head>
 
 <body>
-<!-- Header reutilizable -->
 <div id="header"></div>
 <script src="header.js"></script>
+
+<script src="session.js"></script>
+<script>
+  // Ejecutar la comprobación inmediatamente al cargar la página
+  document.addEventListener("DOMContentLoaded", () => {
+    if (typeof checkSession === 'function') {
+      checkSession();
+    }
+  });
+</script>
 
 <!-- ===== AI CHAT PAGE ===== -->
  <div class ="container" style ="padding:64px 0; text-align:center">

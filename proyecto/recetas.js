@@ -1,17 +1,18 @@
 // recetas.js
 // Carga y muestra recetas en index.html y community.html según el orden solicitado
 
-
 function nombreMes(mes) {
   // mes: 1-12
   const meses = ["", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
   return meses[mes];
 }
 
+// MODIFICADO: Ahora convierte toda la tarjeta en un enlace dinámico hacia recipe-detail.html
 function crearCard(receta) {
   const fechaStr = `<em style='color:var(--muted);font-size:0.95em'>${nombreMes(receta.mes)} ${receta.dia}, ${receta.anio}</em>`;
+  
   return `
-    <div class="card" tabindex="0" style="cursor:pointer">
+    <a href="recipe-detail.html?id=${receta.id}" class="card" tabindex="0" style="cursor:pointer; text-decoration: none; color: inherit; display: block;">
       <img class="card-img" src="${receta.imagen}" alt="${receta.titulo}">
       <div class="card-body">
         <div class="card-tags">
@@ -31,39 +32,50 @@ function crearCard(receta) {
           </div>
         </div>
       </div>
-    </div>
+    </a>
   `;
 }
 
 function cargarRecetas() {
-  fetch('recetas_api.php')
+  // Conectando con tu endpoint actual en auth/recetas_api.php
+  fetch('auth/recetas_api.php')
     .then(res => res.json())
     .then(recetas => {
+      
+      // Manejo de errores por si el API devuelve un mensaje de fallo estructurado
+      if (recetas.error) {
+        console.error("Error desde el API:", recetas.error);
+        return;
+      }
+
       // Destacadas (index): por fecha descendente
       const destacadas = [...recetas].sort((a, b) => {
         if (b.anio !== a.anio) return b.anio - a.anio;
         if (b.mes !== a.mes) return b.mes - a.mes;
         return b.dia - a.dia;
       });
+      
       const featuredGrid = document.getElementById('featured-grid');
       if (featuredGrid) {
         featuredGrid.innerHTML = destacadas.map(crearCard).join('');
       }
+      
       // Tendencias (populares): por likes descendente
       const trendingGrid = document.getElementById('trending-grid');
       if (trendingGrid) {
         const populares = [...recetas].sort((a, b) => b.likes - a.likes);
         trendingGrid.innerHTML = populares.map(crearCard).join('');
       }
+      
       // Comunidad: por nombre ascendente por defecto
       const comunidadGrid = document.getElementById('community-grid');
       if (comunidadGrid) {
         mostrarRecetasComunidad(recetas, 'alfabetico');
         agregarSortListeners(recetas);
       }
-    });
+    })
+    .catch(err => console.error("Error crítico al obtener recetas de la BD:", err));
 }
-
 
 function mostrarRecetasComunidad(recetas, modo) {
   let ordenadas = [...recetas];
@@ -94,5 +106,3 @@ function agregarSortListeners(recetas) {
 }
 
 document.addEventListener('DOMContentLoaded', cargarRecetas);
-
-

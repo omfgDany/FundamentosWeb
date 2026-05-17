@@ -9,9 +9,21 @@
 </head>
 
 <body>
-<!-- Header reutilizable -->
 <div id="header"></div>
 <script src="header.js"></script>
+
+
+
+
+<script src="session.js"></script>
+<script>
+  // Ejecutar la comprobación inmediatamente al cargar la página
+  document.addEventListener("DOMContentLoaded", () => {
+    if (typeof checkSession === 'function') {
+      checkSession();
+    }
+  });
+</script>
 
 <!-- ===== COMMUNITY PAGE ===== -->
 <div class="container">

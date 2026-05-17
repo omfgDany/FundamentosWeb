@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro - RecetaCreativa</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .auth-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+      background: var(--bg, #f9f9f7);
+    }
+    .auth-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+      padding: 48px 40px 40px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .auth-logo span {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary, #f97316);
+      letter-spacing: -1px;
+    }
+    .auth-logo p {
+      color: var(--muted, #888);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+    .auth-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--text, #1a1a1a);
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text, #1a1a1a);
+      margin-bottom: 6px;
+    }
+    .input-icon-wrap {
+      position: relative;
+    }
+    .input-icon-wrap i.icon-left {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted, #aaa);
+      font-size: 0.95rem;
+    }
+    .input-icon-wrap input {
+      width: 100%;
+      padding: 11px 14px 11px 40px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 9px;
+      font-size: 0.97rem;
+      outline: none;
+      transition: border 0.2s;
+      box-sizing: border-box;
+      background: #fafafa;
+    }
+    .input-icon-wrap input:focus {
+      border-color: var(--primary, #f97316);
+      background: #fff;
+    }
+    .input-icon-wrap input.invalid {
+      border-color: #e53935;
+    }
+    .toggle-pass {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--muted, #aaa);
+      font-size: 0.95rem;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .field-hint {
+      font-size: 0.8rem;
+      color: var(--muted, #aaa);
+      margin-top: 4px;
+    }
+    .field-hint.ok    { color: #2e7d32; }
+    .field-hint.error { color: #c62828; }
+    .btn-auth {
+      width: 100%;
+      padding: 13px;
+      background: var(--primary, #f97316);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-auth:hover { background: #e05e00; }
+    .btn-auth:active { transform: scale(0.98); }
+    .auth-footer {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 0.93rem;
+      color: var(--muted, #888);
+    }
+    .auth-footer a {
+      color: var(--primary, #f97316);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .auth-footer a:hover { text-decoration: underline; }
+    .alert {
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .alert.error   { background: #fdecea; color: #b71c1c; border: 1px solid #f5c6cb; display: block; }
+    .alert.success { background: #e8f5e9; color: #1b5e20; border: 1px solid #c8e6c9; display: block; }
+    .strength-bar {
+      height: 4px;
+      border-radius: 2px;
+      margin-top: 6px;
+      transition: all 0.3s;
+      background: #e0e0e0;
+    }
+    .strength-bar.weak   { background: #e53935; width: 33%; }
+    .strength-bar.medium { background: #fb8c00; width: 66%; }
+    .strength-bar.strong { background: #43a047; width: 100%; }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+      color: var(--muted, #aaa);
+      font-size: 0.85rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <span>🍽️ RecetaCreativa</span>
+      <p>Únete a la comunidad</p>
+    </div>
+
+    <h2 class="auth-title">Crear Cuenta</h2>
+
+    <div class="alert" id="alert-msg"></div>
+
+    <div class="form-group">
+      <label for="nombre">Nombre completo</label>
+      <div class="input-icon-wrap">
+        <i class="fa-solid fa-user icon-left"></i>
+        <input type="text" id="nombre" placeholder="Tu nombre" autocomplete="name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Correo electrónico</label>
+      <div class="input-icon-wrap">
+        <i class="fa-solid fa-envelope icon-left"></i>
+        <input type="email" id="email" placeholder="tu@correo.com" autocomplete="email">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <div class="input-icon-wrap">
+        <i class="fa-solid fa-lock icon-left"></i>
+        <input type="password" id="password" placeholder="Mínimo 6 caracteres" oninput="checkStrength()" autocomplete="new-password">
+        <button class="toggle-pass" type="button" onclick="togglePass('password','eye1')" tabindex="-1">
+          <i class="fa-regular fa-eye" id="eye1"></i>
+        </button>
+      </div>
+      <div class="strength-bar" id="strength-bar"></div>
+      <div class="field-hint" id="strength-label"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirm">Confirmar contraseña</label>
+      <div class="input-icon-wrap">
+        <i class="fa-solid fa-lock icon-left"></i>
+        <input type="password" id="confirm" placeholder="Repite tu contraseña" oninput="checkConfirm()" autocomplete="new-password">
+        <button class="toggle-pass" type="button" onclick="togglePass('confirm','eye2')" tabindex="-1">
+          <i class="fa-regular fa-eye" id="eye2"></i>
+        </button>
+      </div>
+      <div class="field-hint" id="confirm-hint"></div>
+    </div>
+
+    <button class="btn-auth" id="btn-register" onclick="handleRegister()">
+      <span id="btn-text">Crear cuenta</span>
+    </button>
+
+    <div class="divider">o</div>
+
+    <div class="auth-footer">
+      ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+    </div>
+    <div class="auth-footer" style="margin-top:10px">
+      <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al inicio</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePass(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon  = document.getElementById(iconId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'fa-regular fa-eye-slash';
+  } else {
+    input.type = 'password';
+    icon.className = 'fa-regular fa-eye';
+  }
+}
+
+function checkStrength() {
+  const val = document.getElementById('password').value;
+  const bar = document.getElementById('strength-bar');
+  const lbl = document.getElementById('strength-label');
+  if (!val) { bar.className = 'strength-bar'; lbl.textContent = ''; return; }
+  if (val.length < 6) {
+    bar.className = 'strength-bar weak'; lbl.textContent = 'Muy corta'; lbl.className = 'field-hint error';
+  } else if (val.length < 10 || !/[A-Z]/.test(val) || !/[0-9]/.test(val)) {
+    bar.className = 'strength-bar medium'; lbl.textContent = 'Contraseña media'; lbl.className = 'field-hint';
+  } else {
+    bar.className = 'strength-bar strong'; lbl.textContent = '¡Contraseña fuerte!'; lbl.className = 'field-hint ok';
+  }
+  checkConfirm();
+}
+
+function checkConfirm() {
+  const pass    = document.getElementById('password').value;
+  const confirm = document.getElementById('confirm').value;
+  const hint    = document.getElementById('confirm-hint');
+  if (!confirm) { hint.textContent = ''; return; }
+  if (pass === confirm) {
+    hint.textContent = '✓ Las contraseñas coinciden';
+    hint.className = 'field-hint ok';
+  } else {
+    hint.textContent = '✗ No coinciden';
+    hint.className = 'field-hint error';
+  }
+}
+
+function showAlert(msg, type = 'error') {
+  const el = document.getElementById('alert-msg');
+  el.textContent = msg;
+  el.className = `alert ${type}`;
+}
+
+async function handleRegister() {
+  const nombre   = document.getElementById('nombre').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirm  = document.getElementById('confirm').value;
+  const btn      = document.getElementById('btn-register');
+  const btnText  = document.getElementById('btn-text');
+
+  if (!nombre || !email || !password || !confirm) {
+    showAlert('Por favor completa todos los campos.'); return;
+  }
+  if (password.length < 6) {
+    showAlert('La contraseña debe tener al menos 6 caracteres.'); return;
+  }
+  if (password !== confirm) {
+    showAlert('Las contraseñas no coinciden.'); return;
+  }
+
+  btn.disabled = true;
+  btnText.textContent = 'Registrando...';
+
+  try {
+    const res  = await fetch('auth/register.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, email, password })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      showAlert('¡Cuenta creada! Redirigiendo...', 'success');
+      setTimeout(() => window.location.href = 'index.html', 1200);
+    } else {
+      showAlert(data.error || 'No se pudo crear la cuenta.');
+      btn.disabled = false;
+      btnText.textContent = 'Crear cuenta';
+    }
+  } catch (e) {
+    showAlert('Error de conexión con el servidor.');
+    btn.disabled = false;
+    btnText.textContent = 'Crear cuenta';
+  }
+}
+</script>
+</body>
+</html>

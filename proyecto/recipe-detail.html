@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receta - FoodForYourSoul</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .recipe-detail-container { max-width: 800px; margin: 40px auto; padding: 0 20px; font-family: sans-serif; }
+    .recipe-main-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+    .recipe-meta { display: flex; gap: 20px; align-items: center; margin-top: 15px; color: #6b7280; font-size: 0.9rem; }
+    .recipe-section { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 25px; margin-top: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .recipe-section h3 { margin-top: 0; border-bottom: 2px solid #f3f4f6; padding-bottom: 8px; color: #111827; }
+    .ingredients-list, .steps-list { padding-left: 20px; line-height: 1.7; color: #374151; }
+    .ingredients-list li { margin-bottom: 8px; }
+    .steps-list li { margin-bottom: 12px; }
+    .badge-cat { background: #fff7ed; color: #f97316; font-weight: bold; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+
+  <div id="header"></div>
+
+  <main class="recipe-detail-container">
+    <div id="recipe-content">
+      <p style="text-align: center; color: #6b7280;">Cargando los secretos culinarios...</p>
+    </div>
+  </main>
+
+  <script src="session.js"></script>
+  <script src="header.js"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      // 1. Obtener el ID de la receta desde la URL (?id=X)
+      const urlParams = new URLSearchParams(window.location.search);
+      const recipeId = urlParams.get('id');
+
+      if (!recipeId) {
+        document.getElementById('recipe-content').innerHTML = `<h3>⚠️ Error: No se especificó ninguna receta.</h3>`;
+        return;
+      }
+
+      try {
+        // 2. Consultar al API enviándole el ID solicitado
+        const res = await fetch(`auth/recetas_api.php?id=${recipeId}`);
+        if (!res.ok) throw new Error("Receta no encontrada");
+        const receta = await res.json();
+
+        if (receta.error) {
+          document.getElementById('recipe-content').innerHTML = `<h3>⚠️ ${receta.error}</h3>`;
+          return;
+        }
+
+        // 3. Procesar los saltos de línea (\n) de los TEXT en listas HTML (<li>)
+        const ingredientesHTML = receta.ingredientes.split('\n')
+          .map(ing => ing.trim() ? `<li>${ing}</li>` : '')
+          .join('');
+          
+        const pasosHTML = receta.preparacion.split('\n')
+          .map(paso => paso.trim() ? `<li>${paso}</li>` : '')
+          .join('');
+
+        // 4. Renderizar el contenido completo de la receta en pantalla
+        document.getElementById('recipe-content').innerHTML = `
+          <h1 style="font-size: 2.2rem; margin-bottom: 10px; color: #111827;">${receta.titulo}</h1>
+          
+          <div class="recipe-meta">
+            <span class="badge-cat">${receta.categoria}</span>
+            <span><i class="fa-solid fa-user"></i> Por <b>${receta.autor}</b></span>
+            <span><i class="fa-solid fa-calendar"></i> ${receta.dia}/${receta.mes}/${receta.anio}</span>
+            <span><i class="fa-solid fa-heart" style="color: #ef4444;"></i> ${receta.likes}</span>
+          </div>
+
+          <p style="font-size: 1.1rem; color: #4b5563; margin-top: 20px; font-style: italic;">
+            "${receta.descripcion}"
+          </p>
+
+          <img src="${receta.imagen}" alt="${receta.titulo}" class="recipe-main-img">
+
+          <div class="recipe-section">
+            <h3>📋 Ingredientes</h3>
+            <ul class="ingredients-list">${ingredientesHTML}</ul>
+          </div>
+
+          <div class="recipe-section">
+            <h3>🍳 Preparación</h3>
+            <ol class="steps-list">${pasosHTML}</ol>
+          </div>
+        `;
+        
+        // Cambiar dinámicamente el título de la pestaña del navegador
+        document.title = `${receta.titulo} - FoodForYourSoul`;
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('recipe-content').innerHTML = `<h3>⚠️ No se pudo cargar la receta correctamente.</h3>`;
+      }
+    });
+  </script>
+</body>
+</html>

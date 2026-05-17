@@ -1,7 +1,21 @@
 // header.js
-// Incluye el header.html en el elemento <div id="header"></div> de cada página
+
+// 1. Buscamos el archivo HTML del menú
 fetch('header.html')
-  .then(response => response.text())
+  .then(response => {
+    if (!response.ok) throw new Error("No se pudo obtener header.html");
+    return response.text();
+  })
   .then(data => {
-    document.getElementById('header').innerHTML = data;
-  });
+    // 2. Lo inyectamos en el contenedor <div id="header"></div> de la página actual
+    const headerContainer = document.getElementById('header');
+    if (headerContainer) {
+      headerContainer.innerHTML = data;
+    }
+
+    // 3. PASO CLAVE: Ahora que el contenedor '#nav-session-actions' existe, iniciamos la sesión
+    if (typeof checkSession === 'function') {
+      checkSession();
+    }
+  })
+  .catch(err => console.error("Error cargando el sistema de navegación:", err));

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Perfil - FoodForYourSoul</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <style>
+    /* Estilos específicos para la vista de perfil en armonía con styles.css */
+    .profile-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 30px;
+    }
+    
+    @media (max-width: 768px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .profile-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    
+    .pfp-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 16px auto;
+    }
+    
+    .profile-pfp {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary, #f97316);
+      background: #f3f4f6;
+    }
+    
+    .role-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      margin-top: 8px;
+    }
+    
+    .role-user { background: #e0f2fe; color: #0369a1; }
+    .role-admin { background: #fee2e2; color: #b91c1c; }
+    
+    .info-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #374151;
+      font-size: 0.9rem;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #f9fafb;
+      color: #4b5563;
+      font-size: 0.95rem;
+    }
+    
+    .form-group input:disabled {
+      background: #f3f4f6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+<nav style="background: #fff; border-bottom: 1px solid #e5e7eb; padding: 10px 20px; font-family: sans-serif;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+    
+    <div style="font-weight: bold; font-size: 1.2rem;">❤️‍🔥FoodForYourSoul</div>
+    
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <a href="index.html" style="text-decoration: none; color: #374151; font-weight: 600;">Inicio</a>
+      <a href="community.html" style="text-decoration: none; color: #374151; font-weight: 600;">Comunidad</a>
+      <a href="ai.html" style="text-decoration: none; color: #374151; font-weight: 600;">IA Chef</a>
+      
+      <div id="nav-session-actions" style="position: relative; display: inline-block;">
+        </div>
+    </div>
+
+  </div>
+</nav>
+
+<script src="session.js"></script>
+<script>
+  // Ejecutar la comprobación inmediatamente al cargar la página
+  document.addEventListener("DOMContentLoaded", () => {
+    if (typeof checkSession === 'function') {
+      checkSession();
+    }
+  });
+</script>
+
+  <main class="profile-container">
+    <div class="profile-grid">
+      
+      <aside class="profile-card">
+        <div class="pfp-container">
+          <img id="profile-avatar" src="proyecto/media/pfp 1.png" alt="Foto de perfil" class="profile-pfp">
+        </div>
+        <h2 id="profile-card-name" style="font-size: 1.3rem; margin: 0 0 4px 0; color: #111827;">Cargando...</h2>
+        <p id="profile-card-email" style="font-size: 0.85rem; color: #6b7280; margin: 0;">...</p>
+        
+        <span id="profile-badge" class="role-badge role-user">Usuario</span>
+      </aside>
+
+      <section class="info-card">
+        <h3 style="margin-top: 0; margin-bottom: 24px; font-size: 1.4rem; border-bottom: 2px solid #f3f4f6; padding-bottom: 10px; color: #111827;">
+          <i class="fa-solid fa-id-card" style="color: var(--primary, #f97316); margin-right: 8px;"></i> Datos de tu Cuenta
+        </h3>
+        
+        <form id="profile-form">
+          <div class="form-group">
+            <label>ID de Usuario</label>
+            <input type="text" id="user-id" disabled value="...">
+          </div>
+          
+          <div class="form-group">
+            <label>Nombre Completo</label>
+            <input type="text" id="user-name" disabled value="...">
+          </div>
+          
+          <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" id="user-email" disabled value="...">
+          </div>
+
+          <div class="form-group">
+            <label>Rol de Sistema</label>
+            <input type="text" id="user-role" disabled value="..." style="text-transform: capitalize;">
+          </div>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        // Consultamos de forma segura el endpoint que ya tienes creado
+        const response = await fetch('auth/session_check.php');
+        const data = await response.json();
+
+        // Si no hay una sesión activa, protegemos la vista redirigiendo al login
+        if (!data.loggedIn) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        const user = data.user;
+
+        // Inyectamos dinámicamente la información del backend en el HTML
+        document.getElementById('profile-card-name').textContent = user.nombre;
+        document.getElementById('profile-card-email').textContent = user.email;
+        
+        document.getElementById('user-id').value = user.id;
+        document.getElementById('user-name').value = user.nombre;
+        document.getElementById('user-email').value = user.email;
+        document.getElementById('user-role').value = user.rol;
+
+        // Modificamos el badge visual según el rol ('admin' o convencional)
+        const badge = document.getElementById('profile-badge');
+        if (user.rol === 'admin') {
+          badge.textContent = 'Administrador';
+          badge.className = 'role-badge role-admin';
+        } else {
+          badge.textContent = 'Usuario';
+          badge.className = 'role-badge role-user';
+        }
+
+      } catch (error) {
+        console.error("Error al cargar los datos del perfil:", error);
+        // En caso de error severo o desconexión, redirigir por seguridad
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
+</html>

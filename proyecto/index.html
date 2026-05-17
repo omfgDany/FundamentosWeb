@@ -10,9 +10,20 @@
 
 
 <body>
-<!-- Header reutilizable -->
 <div id="header"></div>
 <script src="header.js"></script>
+
+
+
+<script src="session.js"></script>
+<script>
+  // Ejecutar la comprobación inmediatamente al cargar la página
+  document.addEventListener("DOMContentLoaded", () => {
+    if (typeof checkSession === 'function') {
+      checkSession();
+    }
+  });
+</script>
 
 <!-- Buscador y acciones principales -->
 <section class="bienvenida-section">
@@ -66,7 +77,5 @@
   </section>
 
 <script src="recetas.js"></script>
-</script>
-<script src="session.js"></script>
 </body>
 </html>

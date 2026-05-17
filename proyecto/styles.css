@@ -132,7 +132,7 @@
   66% { color: #b26a1a; }
   100% { color: #f97316; }
 }
-}
+
 /* ===== RESET & BASE ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -549,3 +549,4 @@ input[type=text]:focus, textarea:focus, select:focus { border-color: var(--prima
 .diff-easy { background: #dcfce7; color: #16a34a; }
 .diff-mod { background: #fef3c7; color: #d97706; }
 .diff-hard { background: #fee2e2; color: #dc2626; }
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publicar Receta - FoodForYourSoul</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .publish-container { max-width: 700px; margin: 40px auto; padding: 0 20px; font-family: sans-serif; }
+    .publish-card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: #374151; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; box-sizing: border-radius; }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .image-dropzone { border: 2px dashed #d1d5db; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; background: #f9fafb; transition: all 0.2s; }
+    .image-dropzone:hover { border-color: #f97316; background: #fff7ed; }
+    #image-preview { max-width: 100%; max-height: 250px; margin-top: 15px; border-radius: 8px; display: none; object-fit: cover; }
+    .submit-btn { background: #f97316; color: white; border: none; padding: 12px 24px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; transition: background 0.2s; }
+    .submit-btn:hover { background: #e05e0d; }
+    #response-message { margin-top: 15px; padding: 10px; border-radius: 6px; display: none; font-weight: 500; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <div id="header"></div>
+
+  <main class="publish-container">
+    <div class="publish-card">
+      <h2 style="margin-top:0; color: #111827; border-bottom: 2px solid #f3f4f6; padding-bottom: 10px;">🍳 Compartir Nueva Receta</h2>
+      
+      <form id="recipe-form" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="titulo">Título de la Receta</label>
+          <input type="text" id="titulo" name="titulo" required placeholder="Ej. Tacos al Pastor caseros">
+        </div>
+
+        <div class="form-group">
+          <label for="categoria">Categoría</label>
+          <select id="categoria" name="categoria" required>
+            <option value="">Selecciona una categoría</option>
+            <option value="mexicana">Mexicana</option>
+            <option value="italiana">Italiana</option>
+            <option value="asiatica">Asiática</option>
+            <option value="postres">Postres</option>
+            <option value="otros">Otros</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Breve Descripción</label>
+          <textarea id="descripcion" name="descripcion" required placeholder="Cuéntale a la comunidad de qué trata tu platillo..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="ingredientes">Ingredientes (uno por línea)</label>
+          <textarea id="ingredientes" name="ingredientes" required placeholder="500g de carne&#10;2 piezas de tomate&#10;1 pizca de sal" rows="5"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="preparacion">Pasos de Preparación</label>
+          <textarea id="preparacion" name="preparacion" required placeholder="1. Corta los vegetales finamente...&#10;2. Pon a calentar el sartén..." rows="6"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Fotografía del Platillo</label>
+          <div class="image-dropzone" onclick="document.getElementById('imagen').click()">
+            <span style="color: #4b5563; font-size: 0.9rem;">📸 Haz clic para seleccionar o arrastra una imagen aquí</span>
+            <input type="file" id="imagen" name="imagen" accept="image/*" style="display: none;">
+            <img id="image-preview" alt="Previsualización">
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Publicar Receta en la Comunidad</button>
+        <div id="response-message"></div>
+      </form>
+    </div>
+  </main>
+
+  <script src="session.js"></script>
+  <script src="header.js"></script>
+  <script src="publish.js"></script>
+</body>
+</html>
