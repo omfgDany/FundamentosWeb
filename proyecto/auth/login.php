@@ -46,6 +46,21 @@ $_SESSION['user_id']    = $user['id'];
 $_SESSION['user_nombre'] = $user['nombre'];
 $_SESSION['user_email'] = $user['email'];
 $_SESSION['user_rol']   = $user['rol'];
+$_SESSION['user_foto_perfil'] = 'media/pfp/1.png';
+
+$column = $conn->query("SHOW COLUMNS FROM usuarios LIKE 'foto_perfil'");
+if ($column && $column->num_rows > 0) {
+    $stmt = $conn->prepare("SELECT foto_perfil FROM usuarios WHERE id = ?");
+    $stmt->bind_param("i", $user['id']);
+    $stmt->execute();
+    $photoResult = $stmt->get_result();
+    $photo = $photoResult->fetch_assoc();
+    $stmt->close();
+
+    if (!empty($photo['foto_perfil'])) {
+        $_SESSION['user_foto_perfil'] = $photo['foto_perfil'];
+    }
+}
 
 $conn->close();
 
@@ -55,6 +70,7 @@ echo json_encode([
         'id'     => $user['id'],
         'nombre' => $user['nombre'],
         'email'  => $user['email'],
-        'rol'    => $user['rol']
+        'rol'    => $user['rol'],
+        'foto_perfil' => $_SESSION['user_foto_perfil']
     ]
 ]);

@@ -62,6 +62,7 @@ $_SESSION['user_id']     = $nuevo_id;
 $_SESSION['user_nombre'] = $nombre;
 $_SESSION['user_email']  = $email;
 $_SESSION['user_rol']    = 'usuario';
+$_SESSION['user_foto_perfil'] = 'media/pfp/1.png';
 
 $conn->close();
 
@@ -71,6 +72,7 @@ echo json_encode([
         'id'     => $nuevo_id,
         'nombre' => $nombre,
         'email'  => $email,
-        'rol'    => 'usuario'
+        'rol'    => 'usuario',
+        'foto_perfil' => $_SESSION['user_foto_perfil']
     ]
 ]);
