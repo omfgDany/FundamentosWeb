@@ -136,6 +136,12 @@
         <div class="pfp-container">
           <img id="profile-avatar" src="media/pfp/1.png" alt="Foto de perfil" class="profile-pfp">
         </div>
+          <div class="form-group">
+            <div class="image-dropzone" onclick="document.getElementById('imagen').click()">
+              <span style="color: #4b5563; font-size: 0.9rem;">🖋️ Presiona aqui para editar tu foto de perfil </span>
+              <input type="file" id="imagen" name="imagen" accept="image/*" style="display: none;">
+          </div>
+        </div>
         <h2 id="profile-card-name" style="font-size: 1.3rem; margin: 0 0 4px 0; color: #111827;">Cargando...</h2>
         <p id="profile-card-email" style="font-size: 0.85rem; color: #6b7280; margin: 0;">...</p>
         

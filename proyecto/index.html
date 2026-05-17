@@ -29,10 +29,11 @@
     <p class="bienvenida-sub">Cocinar no tiene que ser dificil ni agobiante, siempre habrá una persona o una IA que te acompañe</p>
     <div class="bienvenida-search-row">
       <input id="main-search" type="text" placeholder="Buscar recetas...">
-      <button class="bienvenida-search-btn">
+      <button class="bienvenida-search-btn" id="main-search-btn" type="button">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
     </div>
+    <p class="search-error" id="main-search-error" aria-live="polite"></p>
     <div class="bienvenida-actions">
       <a href="publish.html" class="bienvenida-pub-btn"><i class="fa-solid fa-plus"></i> Publicar receta</a>
       <a href="ai.html" class="bienvenida-ia-btn"><i class="fa-solid fa-robot"></i> Hablar con IA</a>
@@ -74,5 +75,6 @@
   </section>
 
 <script src="assets/js/recetas.js"></script>
+<script src="assets/js/home-search.js"></script>
 </body>
 </html>
