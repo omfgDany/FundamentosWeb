@@ -6,25 +6,47 @@
   <title>Receta - FoodForYourSoul</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    .recipe-detail-container { max-width: 800px; margin: 40px auto; padding: 0 20px; font-family: sans-serif; }
-    .recipe-main-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-    .recipe-meta { display: flex; gap: 20px; align-items: center; margin-top: 15px; color: #6b7280; font-size: 0.9rem; }
-    .recipe-section { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 25px; margin-top: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-    .recipe-section h3 { margin-top: 0; border-bottom: 2px solid #f3f4f6; padding-bottom: 8px; color: #111827; }
-    .ingredients-list, .steps-list { padding-left: 20px; line-height: 1.7; color: #374151; }
-    .ingredients-list li { margin-bottom: 8px; }
-    .steps-list li { margin-bottom: 12px; }
-    .badge-cat { background: #fff7ed; color: #f97316; font-weight: bold; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; text-transform: uppercase; }
-  </style>
 </head>
 <body>
 
   <div id="header"></div>
 
-  <main class="recipe-detail-container">
-    <div id="recipe-content">
-      <p style="text-align: center; color: #6b7280;">Cargando los secretos culinarios...</p>
+  <main class="recipe-main">
+    <div class="recipe-card-main">
+      
+      <div id="recipe-content">
+        <p style="text-align: center; color: var(--muted);">Cargando los secretos culinarios...</p>
+      </div>
+
+      <div class="interaction-wrapper" id="interaction-section" style="display: none;">
+        
+        <div class="interaction-header">
+          <h3>💬 Comunidad y Opiniones</h3>
+          
+          <button id="like-button" class="btn-like-action" onclick="toggleLike()">
+            <i class="fa-regular fa-heart" id="like-icon"></i> 
+            <span id="like-text">Me gusta</span> 
+            (<span id="like-count">0</span>)
+          </button>
+        </div>
+
+        <div id="comment-form-wrapper">
+          <div class="comment-form-box">
+            <textarea id="new-comment" placeholder="¿Probaste esta receta? Comparte tu opinión con la comunidad..."></textarea>
+            <button class="btn-comment-submit" onclick="enviarComentario()">Comentar</button>
+          </div>
+        </div>
+
+        <div id="login-to-comment" class="login-required-notice" style="display: none;">
+          🔒 Debes <a href="login.html" style="color: var(--primary); font-weight: 700; text-decoration: none;">Iniciar Sesión</a> para dar "Me gusta" o dejar un comentario.
+        </div>
+
+        <div id="comments-container">
+          <p style="color: var(--muted); font-size: 0.9rem;">No hay comentarios todavía. ¡Sé el primero!</p>
+        </div>
+
+      </div>
+
     </div>
   </main>
 
@@ -32,72 +54,181 @@
   <script src="header.js"></script>
   
   <script>
+    let recipeId = null;
+    let userLogged = false;
+    let userHasLiked = false;
+
     document.addEventListener("DOMContentLoaded", async () => {
-      // 1. Obtener el ID de la receta desde la URL (?id=X)
       const urlParams = new URLSearchParams(window.location.search);
-      const recipeId = urlParams.get('id');
+      recipeId = urlParams.get('id');
 
       if (!recipeId) {
         document.getElementById('recipe-content').innerHTML = `<h3>⚠️ Error: No se especificó ninguna receta.</h3>`;
         return;
       }
 
+      // 1. Verificar estado de autenticación
       try {
-        // 2. Consultar al API enviándole el ID solicitado
+        const sessionRes = await fetch('auth/session_check.php');
+        const sessionData = await sessionRes.json();
+        userLogged = !!sessionData.loggedIn;
+        
+        if (!userLogged) {
+          document.getElementById('comment-form-wrapper').style.display = 'none';
+          document.getElementById('like-button').disabled = true;
+          document.getElementById('like-button').style.cursor = 'not-allowed';
+          document.getElementById('login-to-comment').style.display = 'block';
+        }
+      } catch(e) { 
+        userLogged = false; 
+      }
+
+      // 2. Cargar contenido e interacciones
+      await cargarDatosReceta();
+      await cargarComentarios();
+      
+      if (userLogged) {
+        await verificarEstadoLike();
+      }
+      
+      document.getElementById('interaction-section').style.display = 'block';
+    });
+
+    async function cargarDatosReceta() {
+      try {
         const res = await fetch(`auth/recetas_api.php?id=${recipeId}`);
-        if (!res.ok) throw new Error("Receta no encontrada");
+        if (!res.ok) throw new Error();
         const receta = await res.json();
 
-        if (receta.error) {
-          document.getElementById('recipe-content').innerHTML = `<h3>⚠️ ${receta.error}</h3>`;
-          return;
-        }
+        // Conversión limpia de saltos de línea a listas HTML
+        const ingredientesHTML = receta.ingredientes.split('\n').map(ing => ing.trim() ? `<li>${ing}</li>` : '').join('');
+        const pasosHTML = receta.preparacion.split('\n').map(paso => paso.trim() ? `<li><span class="step-num">#</span><div>${paso}</div></li>` : '').join('');
 
-        // 3. Procesar los saltos de línea (\n) de los TEXT en listas HTML (<li>)
-        const ingredientesHTML = receta.ingredientes.split('\n')
-          .map(ing => ing.trim() ? `<li>${ing}</li>` : '')
-          .join('');
-          
-        const pasosHTML = receta.preparacion.split('\n')
-          .map(paso => paso.trim() ? `<li>${paso}</li>` : '')
-          .join('');
-
-        // 4. Renderizar el contenido completo de la receta en pantalla
         document.getElementById('recipe-content').innerHTML = `
-          <h1 style="font-size: 2.2rem; margin-bottom: 10px; color: #111827;">${receta.titulo}</h1>
+          <h1 style="font-size: 2.2rem; margin-bottom: 12px; color: var(--text); font-weight: 800;">${receta.titulo}</h1>
           
-          <div class="recipe-meta">
-            <span class="badge-cat">${receta.categoria}</span>
-            <span><i class="fa-solid fa-user"></i> Por <b>${receta.autor}</b></span>
-            <span><i class="fa-solid fa-calendar"></i> ${receta.dia}/${receta.mes}/${receta.anio}</span>
-            <span><i class="fa-solid fa-heart" style="color: #ef4444;"></i> ${receta.likes}</span>
+          <div class="recipe-meta-row">
+            <span class="badge">${receta.categoria}</span>
+            <span class="text-muted"><i class="fa-solid fa-user"></i> Por <b>${receta.autor}</b></span>
+            <span class="text-muted"><i class="fa-solid fa-calendar"></i> ${receta.dia}/${receta.mes}/${receta.anio}</span>
           </div>
 
-          <p style="font-size: 1.1rem; color: #4b5563; margin-top: 20px; font-style: italic;">
+          <p style="font-size: 1.1rem; color: var(--muted); margin: 20px 0; font-style: italic; line-height: 1.6;">
             "${receta.descripcion}"
           </p>
 
-          <img src="${receta.imagen}" alt="${receta.titulo}" class="recipe-main-img">
-
-          <div class="recipe-section">
-            <h3>📋 Ingredientes</h3>
-            <ul class="ingredients-list">${ingredientesHTML}</ul>
+          <div class="recipe-hero" style="height: 380px; margin-bottom: 28px; border-radius: var(--radius); overflow: hidden;">
+            <img src="${receta.imagen}" alt="${receta.titulo}" style="width:100%; height:100%; object-fit:cover;">
           </div>
 
-          <div class="recipe-section">
-            <h3>🍳 Preparación</h3>
-            <ol class="steps-list">${pasosHTML}</ol>
-          </div>
+          <div class="recipe-section-title">📋 Ingredientes</div>
+          <ul class="ingredients-list" style="margin-bottom: 28px;">${ingredientesHTML}</ul>
+
+          <div class="recipe-section-title">🍳 Pasos de Preparación</div>
+          <ol class="steps-list">${pasosHTML}</ol>
         `;
         
-        // Cambiar dinámicamente el título de la pestaña del navegador
+        document.getElementById('like-count').textContent = receta.likes;
         document.title = `${receta.titulo} - FoodForYourSoul`;
-
       } catch (err) {
-        console.error(err);
         document.getElementById('recipe-content').innerHTML = `<h3>⚠️ No se pudo cargar la receta correctamente.</h3>`;
       }
-    });
+    }
+
+    async function cargarComentarios() {
+      try {
+        const res = await fetch(`auth/comentarios_api.php?publicacion_id=${recipeId}`);
+        const comentarios = await res.json();
+        const container = document.getElementById('comments-container');
+
+        if (!comentarios || comentarios.length === 0) {
+          container.innerHTML = `<p style="color: var(--muted); font-size: 0.9rem;">No hay comentarios todavía. ¡Sé el primero!</p>`;
+          return;
+        }
+
+        container.innerHTML = comentarios.map(c => {
+          const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(c.autor)}&background=random`;
+          return `
+            <div class="comment-card-item">
+              <img class="comment-avatar" src="${avatarUrl}" alt="Avatar">
+              <div class="comment-card-content">
+                <span class="comment-card-user">${c.autor}</span> 
+                <span class="comment-card-date">${c.fecha}</span>
+                <div class="comment-card-text">${c.comentario}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch(e) { 
+        console.error("Error al cargar comentarios:", e); 
+      }
+    }
+
+    async function enviarComentario() {
+      const txt = document.getElementById('new-comment').value.trim();
+      if (!txt) return;
+
+      try {
+        const res = await fetch('auth/comentarios_api.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ publicacion_id: recipeId, comentario: txt })
+        });
+        const result = await res.json();
+
+        if (result.success) {
+          document.getElementById('new-comment').value = '';
+          await cargarComentarios();
+        } else {
+          alert(result.error);
+        }
+      } catch(e) { 
+        alert("Error de red al comentar."); 
+      }
+    }
+
+    async function verificarEstadoLike() {
+      try {
+        const res = await fetch(`auth/likes_api.php?publicacion_id=${recipeId}`);
+        const data = await res.json();
+        userHasLiked = !!data.hasLiked;
+        actualizarDisenoBotonLike();
+      } catch(e) {}
+    }
+
+    async function toggleLike() {
+      if (!userLogged) return;
+      try {
+        const res = await fetch('auth/likes_api.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ publicacion_id: recipeId })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          userHasLiked = !!data.hasLiked;
+          document.getElementById('like-count').textContent = data.total_likes;
+          actualizarDisenoBotonLike();
+        }
+      } catch(e) {}
+    }
+
+    function actualizarDisenoBotonLike() {
+      const btn = document.getElementById('like-button');
+      const icon = document.getElementById('like-icon');
+      const txt = document.getElementById('like-text');
+      
+      if (userHasLiked) {
+        btn.classList.add('active');
+        icon.className = "fa-solid fa-heart";
+        txt.textContent = "Te gusta";
+      } else {
+        btn.classList.remove('active');
+        icon.className = "fa-regular fa-heart";
+        txt.textContent = "Me gusta";
+      }
+    }
   </script>
 </body>
 </html>
